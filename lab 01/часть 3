@@ -1,0 +1,124 @@
+/*Создайте классы Point и Figure. 
+Класс Point должен содержать два целочисленных поля с координатами точки. 
+Создайте два свойства с одним методом доступа get. 
+Создайте пользовательский конструктор, в теле которого проинициализируйте поля значениями аргументов. 
+Класс Figure должен содержать конструкторы, которые принимают от 3-х до 5-ти аргументов типа Point, а также строковое автосвойство для хранения названия фигуры. 
+Создайте два метода: double LengthSide(Point A, Point B), который рассчитывает длину стороны многоугольника; double PerimeterCalculator(), который рассчитывает периметр многоугольника. 
+Напишите программу, которая выводит на экран название и периметр многоугольника. Покройте тестами методы класса Figure. 
+ 
+Примечание: Избегайте повторения кода при реализации перегруженных конструкторов, используйте реализованные ранее конструкторы с помощью ключевого слова this, например, так: 
+*/
+
+
+
+
+using laba1._3;
+using System;
+using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace laba1._3
+{
+    class Point
+    {
+        public List<Point> points;
+        public int x { get; set; }
+        public int y { get; set; }
+
+        public Point(int x1, int y1)
+        {
+            x = x1;
+            y = y1;
+
+        }
+        public void AddToPointList(List<Point> pointList)
+        {
+            pointList.Add(this); // Добавляем текущий объект Point в список 
+        }
+
+
+    }
+    class Figure
+    {
+
+        public List<Point> Points { get; } // Свойство для списка точек 
+
+        public Figure(List<Point> points)//конструктор 
+        {
+            Points = points;
+        }
+        public double LengthSide(Point A, Point B)
+        {
+            int deltaX = B.x - A.x;
+            int deltaY = B.y - A.y;
+            return Math.Sqrt(deltaX * deltaX + deltaY * deltaY);
+        }
+        public void Area(List<Point> points)//метод по определению периметра  
+        {
+            double perimeter = 0;
+            for (int i = 0; i < points.Count; i++)
+            {
+                double a = LengthSide(points[i], points[(i + 1) % points.Count]);
+                Console.WriteLine($"Сторона {i} равна {a}");
+                perimeter += a;
+            }
+            Console.WriteLine($"{perimeter}");
+
+        }
+        public void figuro4ka(List<Point> Whats_that_figure)//Опред фигуры и периметр 
+        {
+            if (Whats_that_figure.Count == 3)
+            {
+                Console.WriteLine("Треугольник");
+                Area(Whats_that_figure);
+            }
+            if (Whats_that_figure.Count == 4)
+            {
+                Console.WriteLine("Четырехугольник");
+                Area(Whats_that_figure);
+            }
+            if (Whats_that_figure.Count == 5)
+            {
+                Console.WriteLine("Пятиугольник");
+                Area(Whats_that_figure);
+            }
+
+        }
+
+
+    }
+}
+
+internal class Program
+{
+
+    static void Main(string[] args)
+    {
+
+
+
+
+        List<Point> points = new List<Point>();
+        int count = 0;
+        Console.WriteLine("Сколько углов?");
+        string input = Console.ReadLine();
+        int number = int.Parse((input));
+        for (int i = 0; i < number; i++)
+        {
+            Console.WriteLine("Введите координату х");
+            int x, y;
+            input = Console.ReadLine();
+            x = int.Parse((input));
+            Console.WriteLine("Введите координату y");
+            input = Console.ReadLine();
+            y = int.Parse((input));
+            Point point = new Point(x, y);
+            points.Add(point);
+        }
+        Figure figure = new Figure(points); // Создаем объект Figure, передавая ему список точек 
+        figure.figuro4ka(points);
+    }
+}
