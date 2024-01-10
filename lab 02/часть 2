@@ -1,0 +1,74 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using System.Text;
+using System.Threading.Tasks;
+/*Создайте класс Vehicle.В теле класса создайте поля: координаты и параметры средств передвижения (цена, скорость, год выпуска).
+Создайте 3 производных класса Plane, Саг и Ship.Для класса Plane должна быть определена высота и количество пассажиров.
+Для класса Ship — количество пассажиров и порт приписки.Написать программу, которая выводит на экран информацию о каждом средстве передвижения.
+*/
+namespace laba2._2
+{
+    class Vehicle
+    {
+        public Vehicle(string a, string b, string c)
+        {
+            price = a;
+            speed = b; god_vipuska = c;
+        }
+        public string price { set; get; }
+        public string speed { set; get; }
+        public string god_vipuska { set; get; }
+        public static void PrintProperties(object obj)
+        {
+            Type type = obj.GetType();
+            PropertyInfo[] properties = type.GetProperties();
+            foreach (PropertyInfo property in properties)
+            {
+                string name = property.Name; object value = property.GetValue(obj);
+                Console.WriteLine($"{name}: {value}");
+            }
+            Console.WriteLine("\n");
+        }
+    }
+    class Plane : Vehicle
+    {
+        public string flight_height { set; get; }
+        public string count_passagers_plane { set; get; }
+        public Plane(string a, string b, string c, string Count_passagers, string Flight_height) : base(a, b, c)
+        {
+            count_passagers_plane = Count_passagers; flight_height = Flight_height;
+        }
+
+    }
+    class Ship : Vehicle
+    {
+        public string port { set; get; }
+        public string count_passagers_ship { set; get; }
+        public Ship(string a, string b, string c, string Port, string Count_passagers) : base(a, b, c)
+        {
+            count_passagers_ship = Count_passagers;
+            port = Port;
+        }
+    }
+    class Car : Vehicle
+    {
+        public string name_car { set; get; }
+        public string count_passagers_car { set; get; }
+        public Car(string a, string b, string c, string Name_car, string Count_passagers) : base(a, b, c)
+        {
+            count_passagers_car = Count_passagers; name_car = Name_car;
+        }
+    }
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            Ship ship = new Ship("1200$", "12knots", "1990", "Sevastopol", "120");
+            Plane plane = new Plane("2400000$", "1200km/h", "1996", "1", "12000m"); Car car = new Car("1000$", "100km", "1976", "Zhigul`", "infinity");
+            Vehicle.PrintProperties(car); Vehicle.PrintProperties(plane);
+            Vehicle.PrintProperties(ship);
+        }
+    }
+}
